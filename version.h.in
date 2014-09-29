@@ -1,0 +1,4 @@
+#ifndef VERSION_H
+#define VERSION_H
+#define F4_VERSION_STRING "@F4PL_VERSION_STRING@"
+#endif
