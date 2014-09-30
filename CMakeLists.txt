@@ -15,6 +15,6 @@ configure_file(
     ${PROJECT_BINARY_DIR}/version.h
     )
 
-set(SOURCE_FILES main.cpp Compiler/Compiler.cpp Compiler/Parser.cpp)
+set(SOURCE_FILES main.cpp Compiler/Compiler.cpp Compiler/Parser.cpp Compiler/Lexer.cpp)
 add_executable(F4PL ${SOURCE_FILES})
 target_link_libraries(F4PL ${Boost_LIBRARIES})

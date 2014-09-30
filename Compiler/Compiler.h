@@ -1,5 +1,6 @@
 #include <string>
 #include "Parser.h"
+#include "Lexer.h"
 
 using namespace std;
 namespace F4 {
@@ -15,7 +16,7 @@ namespace F4 {
         string ifile, ofile;
         CompilerOutputFormat cof;
         Parser *parser;
-//        Lexer *lexer;
+        Lexer *lexer;
 //        Generator *generator;
     public:
         Compiler(string ifile, string ofile, CompilerOutputFormat cof);
