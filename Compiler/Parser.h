@@ -37,7 +37,7 @@ namespace F4 {
         TT_ASAND,      // &=
         TT_ASOR,       // |=
         TT_UNARYPLUS,  // +
-        TT_UNARYMINUS  // -
+        TT_UNARYMINUS,  // -
         // Keywords
         TT_KW_IF,
         TT_KW_ENDIF,
