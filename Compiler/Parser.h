@@ -29,7 +29,7 @@ namespace F4 {
         TT_DIVIDE,     // /
         TT_AND,        // &
         TT_OR,         // |
-        TT_NOT,        // !
+        TT_NOT,        // ~
         TT_ASPLUS,     // +=
         TT_ASMINUS,    // -=
         TT_ASMULT,     // *=

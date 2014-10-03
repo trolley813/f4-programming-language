@@ -14,7 +14,21 @@ namespace F4 {
         rules[TT_LBRACKET] = qi::char_('[');
         rules[TT_RBRACKET] = qi::char_(']');
         rules[TT_COLON] = qi::char_(':');
-//      rules[TT_ARROW] = qi::string("->");
+        rules[TT_ARROW] = qi::string("->");
+        rules[TT_ASSIGN] = qi::char_('=');
+        rules[TT_PLUS] = qi::char_('+');
+        rules[TT_MINUS] = qi::char_('-');
+        rules[TT_MULTIPLY] = qi::char_('*');
+        rules[TT_DIVIDE] = qi::char_('/');
+        rules[TT_AND] = qi::char_('&');
+        rules[TT_OR] = qi::char_('|');
+        rules[TT_NOT] = qi::char_('~');
+        rules[TT_ASPLUS] = qi::string("+=");
+        rules[TT_ASMINUS] = qi::string("-=");
+        rules[TT_ASMULT] = qi::string("*=");
+        rules[TT_ASDIV] = qi::string("/=");
+        rules[TT_ASAND] = qi::string("&=");
+        rules[TT_ASOR] = qi::string("|=");
     }
     
     vector<Token> Parser::parse() {
