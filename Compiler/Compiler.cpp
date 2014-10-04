@@ -1,4 +1,5 @@
 #include "Compiler.h"
+#include <boost/log/trivial.hpp>
 
 namespace F4 {
     Compiler::Compiler(string ifile, string ofile, CompilerOutputFormat cof) : ifile(ifile), ofile(ofile), cof(cof) {
@@ -7,22 +8,32 @@ namespace F4 {
 
     void Compiler::compile() {
         ifstream *i = new ifstream(ifile.c_str());
-        cout << "Compiling file " << ifile << "...\n";
-        cout << "Parsing...\n";
+        BOOST_LOG_TRIVIAL(info) << "Compiling file " << ifile << "...";
+        BOOST_LOG_TRIVIAL(info) << "Parsing...";
         parser = new Parser(i);
 //        TODO Class Lexer, GeneratorCPP
         std::vector<Token> tokens = parser->parse();
-//        lexer = new Lexer(tokens);
-//        lexer->analyse(tokens);
+//        TODO Remove debug print
+        parser->debugPrintTokens();
+        BOOST_LOG_TRIVIAL(info) << "Analysing...";
+        lexer = new Lexer();
+        lexer->analyse(tokens);
+        BOOST_LOG_TRIVIAL(info) << "Generating code...";
         switch (cof) {
             case COF_OBJECT:
 //                generator = new GeneratorObject(tokens);
+                BOOST_LOG_TRIVIAL(error) << "Sorry, generating format " << cof << " is not supported yet :(";
+                return;
                 break;
             case COF_ASSEMBLER:
 //                generator = new GeneratorAsm(tokens);
+                BOOST_LOG_TRIVIAL(error) << "Sorry, generating format " << cof << " is not supported yet :(";
+                return;
                 break;
             case COF_CPLUSPLUS:
 //                generator = new GeneratorCpp(tokens);
+                BOOST_LOG_TRIVIAL(error) << "Sorry, generating format " << cof << " is not supported yet :(";
+                return;
                 break;
             default:
 //                TODO Error

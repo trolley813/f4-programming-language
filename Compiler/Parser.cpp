@@ -1,14 +1,18 @@
 #include "Parser.h"
-#include <boost/spirit/include/qi_char_class.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/spirit/include/qi.hpp>
+#include <boost/bind.hpp>
 
 namespace bs = boost::spirit;
 namespace qi = boost::spirit::qi;
+using namespace std;
 
 namespace F4 {
     Parser::Parser(ifstream *ifile) : ifile(ifile) {
         rules[TT_IDENT] = bs::lexeme[qi::alpha >> *qi::alnum];
         rules[TT_INTLITERAL] = bs::lexeme[+qi::digit];
         rules[TT_REALLITERAL] = bs::lexeme[(-(qi::char_('+') | qi::char_('-')) >> +qi::digit) >> ((qi::char_(',') | qi::char_('.')) >> +qi::digit)];
+        rules[TT_STRINGLITERAL] = bs::lexeme[qi::char_('"') >> (*qi::char_ - '"') >> qi::char_('"')];
         rules[TT_LPAREN] = qi::char_('(');
         rules[TT_RPAREN] = qi::char_(')');
         rules[TT_LBRACKET] = qi::char_('[');
@@ -29,10 +33,41 @@ namespace F4 {
         rules[TT_ASDIV] = qi::string("/=");
         rules[TT_ASAND] = qi::string("&=");
         rules[TT_ASOR] = qi::string("|=");
+        mainRule = rules[0].copy()[boost::bind(&Parser::addToken, this, 0, _1)];
+        for (int i = 1; i < TT_COUNT; i++) {
+            mainRule = mainRule.copy() | rules[i].copy()[boost::bind(&Parser::addToken, this, i, _1)];
+        }
     }
-    
+
     vector<Token> Parser::parse() {
-        vector<Token> v;
-        return v;
+        // Clear the parsedTokens
+        parsedTokens = vector<Token>();
+        string s;
+        int i = 1;
+        qi::rule < std::string::iterator, vector<std::string>(), ascii::space_type > rule = +(mainRule.copy());
+        while (std::getline(*ifile, s)) {
+            vector<string> v;
+            BOOST_LOG_TRIVIAL(debug) << "Parsing line " << i++;
+            // TODO More interesting deal with comments
+            size_t end = s.find_first_of("%", 0);
+            if (end != string::npos) {
+                s = s.substr(0, end);
+                BOOST_LOG_TRIVIAL(debug) << "Ignoring comment after position " << end;
+            }
+            auto b = s.begin(), e = s.end();
+            if (b == e) continue;
+            bool r = qi::phrase_parse(b, e, rule, qi::ascii::space, v);
+            if (!r) BOOST_LOG_TRIVIAL(warning) << "Partial parse, remaining " << string(b, e);
+            addToken(TT_NEWLINE, "\n");
+            BOOST_LOG_TRIVIAL(debug) << "Total parsed: " << parsedTokens.size() << " token(s)";
+        }
+        return parsedTokens;
+    }
+
+    void Parser::debugPrintTokens() {
+        int i = 1;
+        for (Token t : parsedTokens) {
+            BOOST_LOG_TRIVIAL(debug) << "Token " << i++ << ": " << (t.token != "\n" ? t.token : "[newline]") << " with type " << t.tokenType;
+        }
     }
 }

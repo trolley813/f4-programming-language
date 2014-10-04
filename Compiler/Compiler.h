@@ -1,3 +1,6 @@
+#ifndef COMPILER_H
+#define COMPILER_H
+
 #include <string>
 #include "Parser.h"
 #include "Lexer.h"
@@ -24,3 +27,4 @@ namespace F4 {
         void compile();
     };
 }
+#endif

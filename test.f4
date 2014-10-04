@@ -1,0 +1,9 @@
+fun test : int x -> int
+	return x*x
+endfun
+
+fun main
+    int y = 4
+	int z = test(4)+(4-2)
+	return
+endfun

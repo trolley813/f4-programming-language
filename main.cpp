@@ -2,6 +2,7 @@
 #include <boost/program_options.hpp>
 #include "version.h"
 #include "Compiler.h"
+#include <boost/log/trivial.hpp>
 
 using namespace std;
 using namespace F4;

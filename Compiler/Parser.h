@@ -1,3 +1,6 @@
+#ifndef PARSER_H
+#define PARSER_H
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -10,19 +13,19 @@ namespace ascii = boost::spirit::qi::ascii;
 namespace F4 {
     enum TokenType {
         // Identifiers and literals
-        TT_IDENT,
+                TT_IDENT,
         TT_INTLITERAL,
         TT_REALLITERAL,
         TT_STRINGLITERAL, // TODO String types
         // Punctuation
-        TT_LPAREN,     // (
+                TT_LPAREN,     // (
         TT_RPAREN,     // )
         TT_LBRACKET,   // [
         TT_RBRACKET,   // ]
         TT_COLON,      // :
         TT_ARROW,      // ->
         // Operators
-        TT_ASSIGN,     // =
+                TT_ASSIGN,     // =
         TT_PLUS,       // +
         TT_MINUS,      // -
         TT_MULTIPLY,   // *
@@ -36,10 +39,8 @@ namespace F4 {
         TT_ASDIV,      // /=
         TT_ASAND,      // &=
         TT_ASOR,       // |=
-        TT_UNARYPLUS,  // +
-        TT_UNARYMINUS,  // -
         // Keywords
-        TT_KW_IF,
+                TT_KW_IF,
         TT_KW_ENDIF,
         TT_KW_LOOP,
         TT_KW_ENDLOOP,
@@ -49,21 +50,34 @@ namespace F4 {
         TT_KW_LOGICAL,
         TT_KW_FUN,
         TT_KW_ENDFUN,
+        //New line
+                TT_NEWLINE,
         // Total count
-        TT_COUNT
+                TT_COUNT
     };
 
     struct Token {
         TokenType tokenType;
         string token;
+
+        Token(TokenType tokenType, string token) : tokenType(tokenType), token(token) {
+        }
     };
 
     class Parser {
     private:
         ifstream *ifile;
-        qi::rule<string::iterator, string(), ascii::space_type> rules[TT_COUNT];
+        qi::rule<string::iterator, string(), ascii::space_type> rules[TT_COUNT], mainRule;
+        vector<Token> parsedTokens;
     public:
         Parser(ifstream *ifile);
+
+        void addToken(int tt, string t) {
+            parsedTokens.push_back(Token((TokenType) tt, t));
+        }
+
+        void debugPrintTokens();
         vector<Token> parse();
     };
 }
+#endif
