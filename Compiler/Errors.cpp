@@ -6,7 +6,9 @@ namespace F4 {
                     {ECW_PARTPARSE, "Partial parse"},
                     {ECW_TOOBIG, "Constant number is too big"},
                     {ECE_INVEXPR, "Invalid expression"},
-                    {ECF_CANNOTOPEN, "Cannot open file"}
+                    {ECF_CANNOTOPEN, "Cannot open file"},
+                    {ECF_UNSPECIFIEDFILE, "File not specified"},
+                    {ECF_INVALIDFORMAT, "Invalid output format"}
             };
 
     void message(ErrorCode ec) {

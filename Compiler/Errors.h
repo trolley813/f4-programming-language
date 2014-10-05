@@ -15,6 +15,7 @@ namespace F4 {
                 ECE_INVEXPR,
         // And these are fatal errors (begin with ECF)
                 ECF_CANNOTOPEN,
+        ECF_UNSPECIFIEDFILE,
         ECF_INVALIDFORMAT
     };
 

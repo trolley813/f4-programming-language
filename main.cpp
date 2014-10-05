@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     }
     // Checking for input file name
     if (!vm.count("in-file")) {
-        message(ECF_CANNOTOPEN);
+        message(ECF_UNSPECIFIEDFILE);
         return 1;
     }
     // Checking for output file name
@@ -61,7 +61,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     //Creating the compiler
-    Compiler compiler(ifs, ofs, cof);
-    compiler.compile();
+    try {
+        Compiler compiler(ifs, ofs, cof);
+        compiler.compile();
+    }
+    catch (int x) {
+        BOOST_LOG_TRIVIAL(info) << "Compilation terminated due to fatal error(s)";
+        return x;
+    }
     return 0;
 }

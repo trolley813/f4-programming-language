@@ -1,4 +1,5 @@
 #include "Compiler.h"
+#include "Errors.h"
 #include <boost/log/trivial.hpp>
 
 namespace F4 {
@@ -8,6 +9,7 @@ namespace F4 {
 
     void Compiler::compile() {
         ifstream *i = new ifstream(ifile.c_str());
+        if (!i->is_open()) message(ECF_CANNOTOPEN);
         BOOST_LOG_TRIVIAL(info) << "Compiling file " << ifile << "...";
         BOOST_LOG_TRIVIAL(info) << "Parsing...";
         parser = new Parser(i);
