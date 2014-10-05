@@ -3,6 +3,7 @@
 #include "version.h"
 #include "Compiler.h"
 #include <boost/log/trivial.hpp>
+#include <Errors.h>
 
 using namespace std;
 using namespace F4;
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
     }
     // Checking for input file name
     if (!vm.count("in-file")) {
-        cout << "No input file specified" << endl;
+        message(ECF_CANNOTOPEN);
         return 1;
     }
     // Checking for output file name
@@ -56,7 +57,7 @@ int main(int argc, char *argv[]) {
     if (of == "asm") cof = COF_ASSEMBLER;
     if (of == "cpp") cof = COF_CPLUSPLUS;
     if (cof == COF_UNDEFINED) {
-        cout << "Unknown output file format" << endl;
+        message(ECF_INVALIDFORMAT);
         return 1;
     }
     //Creating the compiler

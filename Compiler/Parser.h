@@ -50,6 +50,7 @@ namespace F4 {
         TT_KW_LOGICAL,
         TT_KW_FUN,
         TT_KW_ENDFUN,
+        TT_KW_RETURN,
         //New line
                 TT_NEWLINE,
         // Total count

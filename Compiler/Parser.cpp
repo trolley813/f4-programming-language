@@ -2,6 +2,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/bind.hpp>
+#include "Errors.h"
 
 namespace bs = boost::spirit;
 namespace qi = boost::spirit::qi;
@@ -57,7 +58,7 @@ namespace F4 {
             auto b = s.begin(), e = s.end();
             if (b == e) continue;
             bool r = qi::phrase_parse(b, e, rule, qi::ascii::space, v);
-            if (!r) BOOST_LOG_TRIVIAL(warning) << "Partial parse, remaining " << string(b, e);
+            if (!r) message(ECW_PARTPARSE);
             addToken(TT_NEWLINE, "\n");
             BOOST_LOG_TRIVIAL(debug) << "Total parsed: " << parsedTokens.size() << " token(s)";
         }
