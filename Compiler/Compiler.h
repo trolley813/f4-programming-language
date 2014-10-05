@@ -4,6 +4,7 @@
 #include <string>
 #include "Parser.h"
 #include "Lexer.h"
+#include "SyntaxAnalyser.h"
 
 using namespace std;
 namespace F4 {
@@ -20,6 +21,7 @@ namespace F4 {
         CompilerOutputFormat cof;
         Parser *parser;
         Lexer *lexer;
+        SyntaxAnalyser *analyser;
 //        Generator *generator;
     public:
         Compiler(string ifile, string ofile, CompilerOutputFormat cof);

@@ -78,6 +78,7 @@ namespace F4 {
         }
 
         void debugPrintTokens();
+
         vector<Token> parse();
     };
 }

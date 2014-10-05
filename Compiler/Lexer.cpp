@@ -1,5 +1,7 @@
 #include <boost/log/trivial.hpp>
+#include <boost/lexical_cast.hpp>
 #include "Lexer.h"
+#include "Errors.h"
 
 namespace F4 {
 
@@ -32,6 +34,14 @@ namespace F4 {
     }
 
     void Lexer::checkForNumbers(vector<Token> &tokens) {
-
+        using boost::conversion::try_lexical_convert;
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens[i].tokenType == TT_INTLITERAL) {
+                int64_t res;
+                if (!try_lexical_convert(tokens[i].token, res)) {
+                    message(ECW_TOOBIG);
+                }
+            }
+        }
     }
 }

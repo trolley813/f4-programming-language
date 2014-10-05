@@ -17,9 +17,12 @@ namespace F4 {
         std::vector<Token> tokens = parser->parse();
 //        TODO Remove debug print
         parser->debugPrintTokens();
-        BOOST_LOG_TRIVIAL(info) << "Analysing...";
+        BOOST_LOG_TRIVIAL(info) << "Lexing...";
         lexer = new Lexer();
         lexer->analyse(tokens);
+        BOOST_LOG_TRIVIAL(info) << "Analysing...";
+        analyser = new SyntaxAnalyser(tokens);
+        analyser->analyseSyntax();
         BOOST_LOG_TRIVIAL(info) << "Generating code...";
         switch (cof) {
             case COF_OBJECT:
